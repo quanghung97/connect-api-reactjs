@@ -5,19 +5,33 @@ import { connect } from 'react-redux';
 import axios from 'axios';
 
 class ProductListPage extends Component {
-    render() {
-        // var { products } = this.props;
-        var products = [];
+
+    constructor(props){
+        super(props);
+        this.state = {
+            products : []
+        }
+    }
+
+    //life circle component call after component render first time and change state and Component render second time
+    componentDidMount(){
         axios({
               method: 'get',
               url: 'http://5b827a172fd7f2001417913b.mockapi.io/api/products',
               data: null
           }).then(res => {
               console.log(res);
-              products = res.data;
+              this.setState({
+                  products : res.data
+              });
           }).catch(err => {
               console.log(err);
           });
+    }
+
+    render() {
+        // var { products } = this.props;
+        var {products} = this.state;
 
         return (
             <div className="col-xs-12 col-sm-12 col-md-12 col-lg-12">
