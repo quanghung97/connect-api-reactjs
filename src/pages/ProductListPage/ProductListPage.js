@@ -2,7 +2,7 @@ import React, {Component} from 'react';
 import ProductList from './../../components/ProductList/ProductList';
 import ProductItem from './../../components/ProductItem/ProductItem';
 import { connect } from 'react-redux';
-import axios from 'axios';
+import callApi from './../../utils/apiCaller';
 
 class ProductListPage extends Component {
 
@@ -15,18 +15,11 @@ class ProductListPage extends Component {
 
     //life circle component call after component render first time and change state and Component render second time
     componentDidMount(){
-        axios({
-              method: 'get',
-              url: 'http://5b827a172fd7f2001417913b.mockapi.io/api/products',
-              data: null
-          }).then(res => {
-              console.log(res);
-              this.setState({
-                  products : res.data
-              });
-          }).catch(err => {
-              console.log(err);
-          });
+        callApi('products', 'GET', null).then(res => {
+            this.setState({
+                products : res.data
+            });
+        });
     }
 
     render() {
