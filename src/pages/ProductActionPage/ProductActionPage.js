@@ -41,16 +41,26 @@ class ProductActionPage extends Component {
 
     onSave = (event) => {
         event.preventDefault();
-        var { txtName, txtPrice, chkbStatus } = this.state;
+        var { id, txtName, txtPrice, chkbStatus } = this.state;
         var { history } = this.props;
-        callApi('products', 'POST', {
-            name : txtName,
-            price : txtPrice,
-            status : chkbStatus
-        }).then(res => {
-            history.goBack();
-            // history.push("/");
-        });
+        if (id) { //update
+            callApi(`products/${id}`, 'PUT', {
+                name : txtName,
+                price : txtPrice,
+                status : chkbStatus
+            }).then(res => {
+                history.goBack();
+            });
+        } else {
+            callApi('products', 'POST', {
+                name : txtName,
+                price : txtPrice,
+                status : chkbStatus
+            }).then(res => {
+                history.goBack();
+                // history.push("/");
+            });
+        }
     }
 
     render() {
