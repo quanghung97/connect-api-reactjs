@@ -1,5 +1,6 @@
 import React, {Component} from 'react';
 import callApi from './../../utils/apiCaller';
+import { Link } from 'react-router-dom';
 
 class ProductActionPage extends Component {
 
@@ -25,12 +26,14 @@ class ProductActionPage extends Component {
     onSave = (event) => {
         event.preventDefault();
         var { txtName, txtPrice, chkbStatus } = this.state;
+        var { history } = this.props;
         callApi('products', 'POST', {
             name : txtName,
             price : txtPrice,
             status : chkbStatus
         }).then(res => {
-            console.log(res);
+            history.goBack();
+            // history.push("/");
         });
     }
 
@@ -57,7 +60,7 @@ class ProductActionPage extends Component {
                          <div className="form-group">
                             <label className="ml-1000">Giá: </label>
                             <input
-                                type="text"
+                                type="number"
                                 name="txtPrice"
                                 value = {txtPrice}
                                 onChange = {this.onChange}
@@ -78,7 +81,7 @@ class ProductActionPage extends Component {
                                 </label>
                             </div>
                          </div>
-
+                            <Link to="/product-list" className="btn btn-info ml-1000 mr-10">Back</Link>
                          <button type="submit" className="btn btn-primary ml-1000">Save</button>
                 </form>
             </div>
