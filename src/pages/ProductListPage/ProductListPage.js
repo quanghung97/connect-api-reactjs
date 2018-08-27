@@ -4,7 +4,7 @@ import ProductItem from './../../components/ProductItem/ProductItem';
 import { connect } from 'react-redux';
 import callApi from './../../utils/apiCaller';
 import { Link } from 'react-router-dom';
-import { actFetchProducts } from './../../actions/index';
+import { actFetchProductsRequest } from './../../actions/index';
 
 class ProductListPage extends Component {
 
@@ -17,12 +17,13 @@ class ProductListPage extends Component {
 
     //life circle component call after component render first time and change state and Component render second time
     componentDidMount(){
-        callApi('products', 'GET', null).then(res => {
-            // this.setState({
-            //     products : res.data
-            // });
-            this.props.feacthAllProducts(res.data);
-        });
+        // callApi('products', 'GET', null).then(res => {
+        //     // this.setState({
+        //     //     products : res.data
+        //     // });
+        //     this.props.feacthAllProducts(res.data);
+        // });
+        this.props.feacthAllProducts();
     }
 
     onDelete = (id) => {
@@ -92,8 +93,8 @@ const mapStateToProps = (state) => {
 
 const mapDispatchToProps = (dispatch, props) => {
     return {
-        feacthAllProducts : (products) => {
-            dispatch(actFetchProducts(products));
+        feacthAllProducts : () => {
+            dispatch(actFetchProductsRequest());
         }
     }
 }
