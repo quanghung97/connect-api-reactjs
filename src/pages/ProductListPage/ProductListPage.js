@@ -4,6 +4,7 @@ import ProductItem from './../../components/ProductItem/ProductItem';
 import { connect } from 'react-redux';
 import callApi from './../../utils/apiCaller';
 import { Link } from 'react-router-dom';
+import { actFetchProducts } from './../../actions/index';
 
 class ProductListPage extends Component {
 
@@ -17,9 +18,10 @@ class ProductListPage extends Component {
     //life circle component call after component render first time and change state and Component render second time
     componentDidMount(){
         callApi('products', 'GET', null).then(res => {
-            this.setState({
-                products : res.data
-            });
+            // this.setState({
+            //     products : res.data
+            // });
+            this.props.feacthAllProducts(res.data);
         });
     }
 
@@ -50,8 +52,8 @@ class ProductListPage extends Component {
     }
 
     render() {
-        // var { products } = this.props;
-        var {products} = this.state;
+         var { products } = this.props;
+        // var {products} = this.state;
 
         return (
             <div className="col-xs-12 col-sm-12 col-md-12 col-lg-12">
@@ -88,4 +90,12 @@ const mapStateToProps = (state) => {
     }
 }
 
-export default connect(mapStateToProps, null)(ProductListPage);
+const mapDispatchToProps = (dispatch, props) => {
+    return {
+        feacthAllProducts : (products) => {
+            dispatch(actFetchProducts(products));
+        }
+    }
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(ProductListPage);
